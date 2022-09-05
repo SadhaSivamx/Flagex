@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{% static 'icon.ico' %}">
+    <title>Flagex</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'Files/index.css'%}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href='https://fonts.googleapis.com/css?family=Alegreya Sans SC' rel='stylesheet'>
+</head>
+<style>
+    #body
+    {
+    font-family: 'Alegreya Sans SC';
+    overflow-x: hidden;
+    }
+</style>
+<script>
+    var score=0;
+    var zx=JSON.parse("{{name|escapejs}}");
+    var tx=[];
+    var t1,t2,t3,tt1,tt2,tt3;
+    var x,id;
+    function save()
+    {
+        location.href = "/Score/"+zx+"/"+score;
+    }
+    function next()
+    {
+        clearInterval(id);
+        if(t3>3)
+        {
+            document.getElementById('answer').innerHTML='<div class="alert alert-info" role="alert" style="margin-left: 70px;margin-right:70px">Game Ends and your score is  <span style="color:black;font-weight:bold;font-size:1.1em;">'+score+'/5</span></div>';
+            document.getElementById('xc').innerHTML="Save";
+            document.getElementById('xc').addEventListener('click',save);
+        }
+        else
+        {
+            x=10;
+            document.getElementById('demo').innerHTML=x;
+            id=setInterval(myint,1000);
+        }
+        tt1+=1;
+        tt2+=1;
+        tt3+=1;
+        t3+=1;
+        var tt1=t1[t3][0];
+        var tt2=t1[t3][1];
+        var tt3=t1[t3][2];
+        document.getElementById('x1').src="static/Flag/Flag_of_"+tt1+".png";
+        document.getElementById('x1').className=tt1;
+        document.getElementById('x2').src="static/Flag/Flag_of_"+tt2+".png";
+        document.getElementById('x2').className=tt2;
+        document.getElementById('x3').src="static/Flag/Flag_of_"+tt3+".png";
+        document.getElementById('x3').className=tt3;
+        var b = t2[t3].split('_');
+        var c=b.join(' ');
+        document.getElementById('Questions').innerHTML=c;
+        document.getElementById('answer').innerHTML='<div class="alert alert-warning" role="alert" style="margin-left: 70px;margin-right:70px">You did not select!</div>';
+    }
+    function myint()
+    {
+        x-=1;
+        document.getElementById('demo').innerHTML=x;
+        if(x==1)
+        {
+            x=0;
+            document.getElementById('demo').innerHTML=x;
+            document.getElementById('answer').innerHTML='<div class="alert alert-danger" role="alert" style="margin-left: 70px;margin-right:70px">No its Wrong!</div>'
+            clearInterval(id);
+            tx.push(t3);
+        }
+    }
+    function call()
+    {
+        x=10;
+        document.getElementById('game').style.visibility="visible";
+        document.getElementById('btn').style.display="none";
+        id=setInterval(myint,1000);
+        t1=JSON.parse("{{Questions|escapejs}}");
+        t2=JSON.parse("{{Answers|escapejs}}");
+        t3=0;
+        tt1=t1[t3][0];
+        tt2=t1[t3][1];
+        tt3=t1[t3][2];
+        document.getElementById('x1').src="static/Flag/Flag_of_"+tt1+".png";
+        document.getElementById('x1').className=tt1;
+        document.getElementById('x2').src="static/Flag/Flag_of_"+tt2+".png";
+        document.getElementById('x2').className=tt2;
+        document.getElementById('x3').src="static/Flag/Flag_of_"+tt3+".png";
+        document.getElementById('x3').className=tt3;
+        var b = t2[t3].split('_');
+        var c=b.join(' ');
+        document.getElementById('Questions').innerHTML=c;
+    }
+    function verify(opo)
+    {
+        var g=document.getElementById(opo).className;
+        if(t3 in tx)
+        {
+            document.getElementById('answer').innerHTML='<div class="alert alert-warning" role="alert" style="margin-left: 70px;margin-right:70px">Already Selected!</div>'
+        }
+        else
+        {
+            if(g==t2[t3])
+            {
+                score+=1;
+                tx.push(t3);
+                x=0;
+                document.getElementById('demo').innerHTML=x;
+                clearInterval(id);
+                document.getElementById('answer').innerHTML='<div class="alert alert-success" role="alert" style="margin-left: 70px;margin-right:70px">Yes its correct!</div>';
+            }
+            else
+            {
+                tx.push(t3);
+                x=0;
+                document.getElementById('demo').innerHTML=x;
+                clearInterval(id);
+                document.getElementById('answer').innerHTML='<div class="alert alert-danger" role="alert" style="margin-left: 70px;margin-right:70px">No its Wrong!</div>'
+            }
+        }
+    }
+</script>
+<body id="body">
+    <div style="justify-content: center;align-items: center;display:flex;" id="btn">
+        <button type="button" class="btn btn-info" onclick="call()" style="margin-top: 40vh;font-size: 1.5em;width: 300px;height: 150px;">Start Game</button>
+    </div>
+    <div class="row" style="margin-top: 30px;visibility: hidden;" id="game">
+        <div class="col-lg-1 col-md-2 col-sm-1"></div>
+        <div class="col-lg-10 col-md-8 col-sm-10">
+            <div>
+                <h3 style="margin-top: 30px;text-align: center;">
+                    Which of the below flag represents the country <span style="color: rgb(23, 214, 23);font-weight: bold;" id="Questions"></span>
+                </h3>
+                <div style="margin-top:30px;text-align: center;">
+                    <h5>Choose it within <span style="color: red;" id="demo">10</span></h5>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 50px;">
+                <div class="col-lg-4" style="margin-top: 25px;">
+                    <div>
+                        <img id="x1" onclick="verify('x1')" draggable="false" src="" alt="" width="95%" height="300px" style="border-radius: 10px;border-style:solid;border-color: black;margin-left: 15px;">
+                    </div>
+                </div>
+                <div class="col-lg-4" style="margin-top: 25px;">
+                    <div>
+                        <img id="x2" onclick="verify('x2')" draggable="false" src="" alt="" width="95%" height="300px" style="border-radius: 10px;border-style:solid;border-color: black;margin-left: 15px;">
+                    </div>
+                </div>
+                <div class="col-lg-4" style="margin-top: 25px;">
+                    <div>
+                        <img id="x3" onclick="verify('x3')" draggable="false" src="" alt="" width="95%" height="300px" style="border-radius: 10px;border-style:solid;border-color: black;margin-left: 15px;">
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 50px;text-align: center;width: 100%;text-align: center;" id="answer">
+                <div class="alert alert-warning" role="alert" style="margin-left: 70px;margin-right:70px" id="hello">
+                    You didn't select!
+                </div>
+            </div>
+            <div style="justify-content: center;align-items: center;display:flex;margin-top: 40px;">
+                <button type="button" class="btn btn-info" onclick="next()" style="width: 100px;" id="xc">Next</button>
+                <a href="/Game" style="margin-left: 15px;"><button type="button" class="btn btn-warning" style="width: 100px;">Reset</button></a>
+            </div>
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-1"></div>
+    </div>
+</body>
+</html>
