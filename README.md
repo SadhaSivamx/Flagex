@@ -11,9 +11,9 @@
 
 ## Websites Link
 
-- Here's the [Site](https://flagex.pythonanywhere.com/) 
-- i hosted it for free in pythonanywhere because its a test project not a fully developed one 
+- I named it Flagex it means Flagexplorer ,Here's the [Website](https://flagex.pythonanywhere.com/) 
+- I hosted it for free in pythonanywhere because its a test project not a fully developed one 
 
 ## Help
-
+-  If you have any suggestions for me please consider connecting with me [Mail](https://www.instagram.com/sadhasivam.dev/)
 - Consider giving a star to this repo and if you have any further recommendations you can proceed
