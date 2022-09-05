@@ -7,6 +7,7 @@
 ## Note
 
 - The icon file and the Flag.zip files should be inside the Static folder due to large number of files i inserted them as a zip file
+- The database files are already migrated so i case of new use it should be modified correctly 
 
 ## Websites Link
 
